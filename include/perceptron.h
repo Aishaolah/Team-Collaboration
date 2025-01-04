@@ -7,3 +7,5 @@ typedef struct {
     double weights[N_INPUTS];
     double bias;
 } Perceptron;
+
+#endif // PERCEPTRON_H
