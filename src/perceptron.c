@@ -66,14 +66,13 @@ int load_dataset(const char *filename, double inputs[][NUM_INPUTS], int *targets
     FILE *file = fopen(filename, "r");
     if (!file) {
         printf("Error: Unable to open file %s\n", filename);
-        return 0;
-    }
+    return 0;
 
     char line[256];
     size_t sample_count = 0;
 
     while (fgets(line, sizeof(line), file) && sample_count < num_samples) {
-        double feature1, feature2, feature3;
+        double feature1, feature2;
         int target;
 
         // Parse each line
@@ -89,3 +88,42 @@ int load_dataset(const char *filename, double inputs[][NUM_INPUTS], int *targets
     return 1;
 }
 
+    return 0;
+}
+
+
+int main() {
+    double inputs[NUM_SAMPLES][NUM_INPUTS];
+    int targets[NUM_SAMPLES];
+
+    // Load dataset from the CSV file
+    const char *filename = "C:/Users/TRETEC/Desktop/cApps/Project/perceptron_dataset.csv";
+    if (!load_dataset(filename, inputs, targets, NUM_SAMPLES)) {
+        return 1;
+    }
+    //Initialize the Perceptron
+    Perceptron perceptron;
+    initialize_perceptron(&perceptron);
+
+    //Training parameters
+    double learning_rate = 0.1;
+    int max_epochs = 1000;
+
+    //Train the Perceptron
+    train_perceptron(&perceptron, inputs, targets, NUM_SAMPLES, learning_rate, max_epochs);
+
+    //Test the Perceptron on the dataset
+    printf("Testing the Perceptron on the dataset:\n");
+    int correct_predictions = 0;
+    for (int i = 0; i < NUM_SAMPLES; ++i) {
+        int prediction = predict(&perceptron, inputs[i]);
+        printf("Sample %d: Prediction = %d, Target = %d\n", i + 1, prediction, targets[i]);
+        if (prediction == targets[i]) {
+            ++correct_predictions;
+        }
+    }
+
+    printf("Accuracy: %.2f%%\n", (correct_predictions / (double)NUM_SAMPLES) * 100);
+
+    return 0;
+}
