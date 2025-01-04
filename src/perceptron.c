@@ -3,8 +3,8 @@
 #include <time.h>
 #include <string.h>
 
-//Number of input features: Weather, Soil, Resources
-#define NUM_INPUTS 3 
+//Number of input features: Weather, Resources
+#define NUM_INPUTS 2
 //Number of data samples (optional)
 #define NUM_SAMPLES 100 
 
@@ -26,4 +26,9 @@ double net_input(const Perceptron *perceptron, const double *inputs) {
     }
     sum += perceptron->bias;
     return sum;
+}
+//Make a prediction
+int predict(const Perceptron *perceptron, const double *inputs) {
+    double net = net_input(perceptron, inputs);
+    return step_function(net);
 }
