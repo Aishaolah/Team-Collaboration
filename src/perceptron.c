@@ -52,3 +52,12 @@ void train_perceptron(Perceptron *perceptron,
             perceptron->bias += learning_rate * error;
         }
     }}
+//Initialize the Perceptron with random weights and bias
+void initialize_perceptron(Perceptron *perceptron) {
+    srand(time(NULL));  //Seed the random number generator
+
+    for (int i = 0; i < NUM_INPUTS; ++i) {
+        perceptron->weights[i] = ((double)rand() / RAND_MAX) * 2.0 - 1.0;
+    }
+    perceptron->bias = ((double)rand() / RAND_MAX) * 2.0 - 1.0;
+}
